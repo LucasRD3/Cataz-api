@@ -1,38 +1,36 @@
-// db.js (Novo Arquivo)
+// db.js
+
 const mongoose = require('mongoose');
 
-// O MONGODB_URI é injetado pelo Vercel
-const MONGODB_URI = process.env.MONGODB_URI;
+// A URI de conexão é injetada pelo Vercel como uma variável de ambiente secreta
+const MONGODB_URI = process.env.MONGODB_URI; 
 
 if (!MONGODB_URI) {
-  throw new Error(
-    'Por favor, defina a variável de ambiente MONGODB_URI no Vercel.'
-  );
+    throw new Error(
+        'Por favor, defina a variável de ambiente MONGODB_URI no Vercel.'
+    );
 }
 
-// Criamos uma função de conexão que só roda se o banco ainda não estiver conectado.
+// Criamos um cache para a conexão, essencial para funções Serverless
 let cachedDb = null;
 
 async function connectToDatabase() {
-  if (cachedDb) {
-    console.log('=> Usando conexão de banco de dados em cache');
-    return cachedDb;
-  }
+    if (cachedDb) {
+        console.log('=> Usando conexão de DB em cache');
+        return cachedDb;
+    }
 
-  // Opções de conexão para Serverless
-  const opts = {
-    bufferCommands: false, // Desativa o buffering para evitar problemas em serverless
-  };
-
-  try {
-    const dbConnection = await mongoose.connect(MONGODB_URI, opts);
-    cachedDb = dbConnection;
-    console.log('=> Conexão com MongoDB Atlas estabelecida');
-    return dbConnection;
-  } catch (error) {
-    console.error('ERRO ao conectar ao MongoDB Atlas:', error);
-    throw error;
-  }
+    try {
+        // Opções para Serverless: desativa o buffering
+        const opts = { bufferCommands: false }; 
+        const dbConnection = await mongoose.connect(MONGODB_URI, opts);
+        cachedDb = dbConnection;
+        console.log('=> Conexão com MongoDB Atlas estabelecida');
+        return dbConnection;
+    } catch (error) {
+        console.error('ERRO ao conectar ao MongoDB Atlas:', error);
+        throw error;
+    }
 }
 
 module.exports = connectToDatabase;

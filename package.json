@@ -1,18 +1,23 @@
 {
-  "name": "banner-server",
+  "name": "banners-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "API for managing banners on Vercel with MongoDB Atlas and Cron Jobs.",
   "main": "Server.js",
   "scripts": {
-    "start": "node Server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node Server.js"
   },
-  "keywords": [],
+  "keywords": [
+    "vercel",
+    "express",
+    "mongoose",
+    "mongodb"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.4"
   },
   "devDependencies": {
     "@vercel/node": "^3.1.5"
