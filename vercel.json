@@ -11,5 +11,11 @@
       "src": "/(.*)",
       "dest": "Server.js"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cleanup-banners",
+      "schedule": "59 2 * * *"
+    }
   ]
 }
